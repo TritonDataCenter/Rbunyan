@@ -1,0 +1,22 @@
+Package: bunyan
+Type: Package
+Title: Joyent Bunyan style JSON logging for R
+Version: 0.1.0
+Date: 2013-11-13
+Authors@R: c(person("Christopher","Hogue",role = c("aut","cre"),
+    email="christopher.hogue@joyent.com"))
+Depends:
+    R (>= 3.0.0),
+    RJSONIO
+Description: Bunyan style logging for R
+    written for the package mantaRSDK but can be used
+    for any logging purpose. See the mantaRSDK
+    for use with RCURL. For more about Bunyan and Node.js
+    see https://github.com/trentm/node-bunyan
+    and http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/
+    GitHub - www.github.com/cwvhogue/Rbunyan
+SystemRequirements: 
+Copyright: Joyent Inc. 2013
+License: MIT
+URL: www.joyent.com
+BugReports: www.github.com/cwvhogue/bunyan/issues
