@@ -4,7 +4,7 @@
 #' @param level string, required. 'TRACE', 'DEBUG', 'INFO', 
 #' 'WARN', 'ERROR', 'FATAL' Level required to trigger log write.
 #'
-#  @param logpath path optional. The log path, default when
+#' @param logpath optional. The log path, default when
 #' not specified is the home directory of the account. Windows
 #' paths must include drive letter.
 #'
@@ -14,17 +14,10 @@
 #' in memory to retrieve with bunyanLogTail()  Set to 0 to disable
 #' memory logging
 #'
-#' bunyanSetLog(level='DEBUG') logs last 1000 messages to memory
-#' bunyanSetLog(level='INFO', logfile="myprogram.log") logs 
-#' of level INFO and above are written to myprogram.log in user's
-#' home directory
-#' bunyanSetLog(level='TRACE', logpath=getwd(), logfile="myprogram.log")
-#' writes to myprogram.log in current working directory
 #'
-#' Default bunyanSetLog() initializes with memory logging at INFO level
-
-bunyanSetLog
-function(level, logpath, logfile, memlines=20 )  <- {
+#' @export
+bunyanSetLog <-
+function(level, logpath, logfile, memlines=20 )  {
 
   validlevel <- c(TRACE = 10, DEBUG=20, INFO=30, WARN=40, ERROR=50, FATAL=60)
   # Corresponding Bunyan levels
@@ -51,7 +44,7 @@ function(level, logpath, logfile, memlines=20 )  <- {
         log <- paste(home, "\\" ,logfile, sep="")
       }
     } else { # User specified directory
-      if (.Platfor$OS.type == "unix") {
+      if (.Platform$OS.type == "unix") {
          log <- paste(logpath, "/", logfile,sep="")
       } else { #Windows, assume user put in drive letter...
          log <- paste(logpath, "\\", logfile,sep="")
@@ -82,7 +75,7 @@ function(level, logpath, logfile, memlines=20 )  <- {
   # Hostname
   hostname <- as.character(Sys.info()["nodename"])
   assign("hostname", hostname, envir=bunyan_globals)
-  assign("validlevels", validlevels, envir=bunyan_globals)
+  assign("validlevel", validlevel, envir=bunyan_globals)
   # Process ID
   pid <- Sys.getpid()
   assign("pid", pid, envir=bunyan_globals)
@@ -103,4 +96,16 @@ function(level, logpath, logfile, memlines=20 )  <- {
     msg = paste("Initialized bunyan log at level: ", level, " to file: ", log, sep="")
   }
   bunyanLog(level = level, msg = msg)
+
+
+# bunyanSetLog(level='DEBUG') logs last 1000 messages to memory
+# bunyanSetLog(level='INFO', logfile="myprogram.log") logs 
+# of level INFO and above are written to myprogram.log in user's
+# home directory
+# bunyanSetLog(level='TRACE', logpath=getwd(), logfile="myprogram.log")
+# writes to myprogram.log in current working directory
+#
+# Default bunyanSetLog() initializes with memory logging at INFO level
+
+
 }

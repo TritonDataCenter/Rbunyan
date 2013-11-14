@@ -17,8 +17,10 @@
 #' @param verbose logical. When TRUE msg appears on console
 #'
 #' 
-bunyanLog
-function(level, msg, req, res, version, mark=FALSE, verbose=FALSE)  <- {
+#'
+#' @export
+bunyanLog <- 
+function(level, msg, req, res, version, mark=FALSE, verbose=FALSE) {
 
   if (bunyan_globals$bunyan_initialized == FALSE) {
     bunyanSetLog() # default is memory logging at INFO level
@@ -47,19 +49,19 @@ function(level, msg, req, res, version, mark=FALSE, verbose=FALSE)  <- {
   tolog <- c(name = bunyan_globals$name,  #R version
              hostname = bunyan_globals$hostname, #Computer name
              pid = bunyan_globals$pid, # Process ID
-             level = level_num, #Log Level Number
+             level = level_num #Log Level Number
             )
 
-  if ((missing(req)) && missing(res))) {
+  if ( (missing(req)) && (missing(res)) ) {
     if (missing(msg)) {
-      tolog <- c(tolog, time = time))
+      tolog <- c(tolog, time = time)
     } else {
       tolog <- c(tolog, msg = msg, time = time)
     }
   } else { # Subobjects 
-    if ((missing(req)) {
+    if (missing(req)) {
       if (missing(msg)) {
-        tolog <- c(tolog, res = res, time = time))
+        tolog <- c(tolog, res = res, time = time)
       } else {
         tolog <- c(tolog, res = res, msg = msg, time = time)
       }
@@ -84,7 +86,7 @@ function(level, msg, req, res, version, mark=FALSE, verbose=FALSE)  <- {
   # MEMORY logging into fixed array of JSON log strings, wraparound
   if (bunyan_globals$memlines > 0) {
     # Update memstart to place logline into next memory location
-    if (bunayn_globals$memstart == bunyan_globals$memlines) { 
+    if (bunyan_globals$memstart == bunyan_globals$memlines) { 
       # wraparound
       assign("memstart", 1, envir=bunyan_globals)
     } else {

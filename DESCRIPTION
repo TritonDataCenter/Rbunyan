@@ -20,3 +20,8 @@ Copyright: Joyent Inc. 2013
 License: MIT
 URL: www.joyent.com
 BugReports: www.github.com/cwvhogue/bunyan/issues
+Collate:
+    'bunyan-package.r'
+    'bunyanLog.R'
+    'bunyanOnload.R'
+    'bunyanSetLog.R'
