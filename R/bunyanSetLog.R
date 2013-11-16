@@ -2,73 +2,89 @@
 #' Initializes Bunyan Style Error Logging
 #'
 #' @param level string, required. 'TRACE', 'DEBUG', 'INFO', 
-#' 'WARN', 'ERROR', 'FATAL' Level required to trigger log write.
+#' 'WARN', 'ERROR', 'FATAL' Level threshold required to 
+#' trigger log write.
 #'
 #' @param logpath optional. The log path, default when
-#' not specified is the home directory of the account. Windows
-#' paths must include drive letter.
+#' not specified is getwd. Windows  paths must include drive letter.
 #'
-#' @param logfile filename required. The log file name - no path
+#' @param logfile filename optional. The log file name - no path
 #'
 #' @param memlines integer required. Number of lines to cache
-#' in memory to retrieve with bunyanLogTail()  Set to 0 to disable
+#' in memory to retrieve with bunyanTraceback()  Set to 0 to disable
 #' memory logging
 #'
+#' @param jsonout logical requried. Set to TRUE so bunyanLog
+#' returns the JSON formatted log string. This function itself
+#' will also return a JSON formatted log initialization INFO message.
+#'
+#' You can opt to write JSON lines using another log package 
+#' To do this, disable bunyan's output and memory logs with:
+#' bunyanSetLog(level=0, memlines=0, jsonout=TRUE) 
+#' Then retrieve the JSON formatted bunyan format log msg 
+#' msg <- bunyanLog.info(msg="This is a log message")
+#' to pass to the alternate logging package.
 #'
 #' @export
 bunyanSetLog <-
-function(level, logpath, logfile, memlines=20 )  {
+function(level, logpath, logfile, memlines=20, jsonout=FALSE )  {
 
   validlevel <- c(TRACE = 10, DEBUG=20, INFO=30, WARN=40, ERROR=50, FATAL=60)
   # Corresponding Bunyan levels
 
-  level_num <- match(level,validlevel)
-  if (is.na(level_num)) {
-    level_num <- match(level, names(validlevel))
-    if (is.na(level_num)) {
-      # Assume the worst
-      level_num <- validlevel[match(level, 50)]
+  if(missing(level)) level <- 30 # Assume INFO
+
+  level_num <- as.numeric(validlevel[match(level, validlevel)])
+  if (is.na(level_num)) { # no, match string
+    level_num <- as.numeric(validlevel[match(level, names(validlevel))])
+    if (is.na(level_num)) { # not matched
+    level_num <- as.numeric(level)  # Assume Custom user level number
     }
   }
 
+  logname <- ""
   if(!missing(logfile)) {  
-    if(missing(logpath)) { # User's home directory
+    if(missing(logpath)) { # Use Current directory
       if (.Platform$OS.type == "unix") {
-         home <- Sys.getenv("HOME")
-         log <- paste(home, "/", logfile, sep="")
+         home <- getwd()
+         logname <- paste(home, "/", logfile, sep="")
       } else {
         # Windows
-        homedrive <- Sys.getenv("HOMEDRIVE")
-        homepath <- Sys.getenv("HOMEPATH")
-        home <- paste(homedrive, homepath, sep="")
-        log <- paste(home, "\\" ,logfile, sep="")
+        home <- getwd()
+        logname <- paste(home, "\\" ,logfile, sep="")
       }
     } else { # User specified directory
       if (.Platform$OS.type == "unix") {
-         log <- paste(logpath, "/", logfile,sep="")
+         logname <- paste(logpath, "/", logfile,sep="")
       } else { #Windows, assume user put in drive letter...
-         log <- paste(logpath, "\\", logfile,sep="")
+         logname <- paste(logpath, "\\", logfile,sep="")
       }
     }
   } else {
-    # missing log file implies we are collecting in memory only
-    log <- NULL
+    # missing log file is ok
+    logname <- ""
   }
+ 
+#  cat("[",logname,"]","\n")
 
-
-  if (file.exists(log) == TRUE) {
-  # Appending
-    log_con <- file(log,"at")
+  if (length(logname) != 0) {
+    if (file.exists(logname) == TRUE) {
+    # Appending
+      log_con <- file(logname,"at")
+    } else {
+    # Create empty log write first line
+      log_con <- file(logname,"wt")
+    }
   } else {
-  # Create empty log write first line
-    log_con <- file(log,"wt")
+      log_con <- NULL
   }
 
   # Set up bunyan environment 
 
   assign("level_num", level_num, envir=bunyan_globals)
-  assign("log", log, envir=bunyan_globals)
+  assign("logname", logname, envir=bunyan_globals)
   assign("log_con", log_con, envir=bunyan_globals)
+  assign("jsonout", jsonout, envir=bunyan_globals)
   r_version <- as.character(getRversion())
   name <- paste("R-",r_version, sep="")
   assign("name", name, envir=bunyan_globals)
@@ -83,29 +99,27 @@ function(level, logpath, logfile, memlines=20 )  {
     loglines <- character(memlines)
     assign("loglines", loglines, envir=bunyan_globals) # the log array 
     assign("memlines", memlines, envir=bunyan_globals)  # size of array
-    assign("memstart", 1, envir=bunyan_globals) # start of wrapped array 
-    assign("linecount", 1, envir=bunyan_globals) # total number of lines logged
-    assign("setpoint", 1, envir=bunyan_globals) # setpoint to report new items from
-    assign("countsincemark", 1, envir=bunyan_globals) # of lines since setpoint logged
+    assign("memstart", 0, envir=bunyan_globals) # start of wrapped array 
+    assign("linecount", 0, envir=bunyan_globals) # total number of lines logged
+    assign("setpoint", 0, envir=bunyan_globals) # setpoint to report new items from
+    assign("countsincemark", 0, envir=bunyan_globals) # of lines since setpoint logged
     assign("bunyan_initialized", TRUE, envir=bunyan_globals) # ready
   }
-  # Add a log initialize message to the system
-  if (log == NULL) {
-    msg = paste("Initialized bunyan log at level: ", level, " in memory, keeping", memlines, " log entries." ,sep="")
-  } else {
-    msg = paste("Initialized bunyan log at level: ", level, " to file: ", log, sep="")
+
+  # Log initialization message
+  msg = paste("Initialized bunyan log at level: ", level, "=", level_num, sep="")
+  
+  if (memlines != 0) {
+    msg = paste(msg, " Memory log line buffer: ", memlines ,sep="")
   }
-  bunyanLog(level = level, msg = msg)
+  if (logname != "") {
+    msg = paste(msg, " Log file: ", logname, sep="")
+  }
 
-
-# bunyanSetLog(level='DEBUG') logs last 1000 messages to memory
-# bunyanSetLog(level='INFO', logfile="myprogram.log") logs 
-# of level INFO and above are written to myprogram.log in user's
-# home directory
-# bunyanSetLog(level='TRACE', logpath=getwd(), logfile="myprogram.log")
-# writes to myprogram.log in current working directory
-#
-# Default bunyanSetLog() initializes with memory logging at INFO level
-
+  # Log the initialization messge
+  json <- bunyanLog(level = level, msg = msg)
+  if (jsonout == TRUE) {
+    return(json)
+  } 
 
 }

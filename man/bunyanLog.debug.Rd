@@ -1,18 +1,14 @@
-\name{bunyanLog}
-\alias{bunyanLog}
+\name{bunyanLog.debug}
+\alias{bunyanLog.debug}
 \title{Logger bunyan style, to write JSON formatted machine readable logs
 and to keep JSON log lines in a memory buffer.  Can be used with
 other logging packages.}
 \usage{
-  bunyanLog(msg, level, req, res, version)
+  bunyanLog.debug(msg, req, res, version)
 }
 \arguments{
   \item{msg}{optional. Error to report - R struct passed to
   toJSON}
-
-  \item{level}{string or numeric, required. 'TRACE',
-  'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL' Level required
-  to trigger log write.}
 
   \item{req}{optional. An http style request R struct}
 
