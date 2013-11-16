@@ -119,7 +119,8 @@ function(msg, level, req, res, version) {
 
   ######
   #FILE logging
-  cat(logline, file=bunyan_globals$log_con, sep="\n", append=TRUE)
+  if (bunyan_globals$logname != "")
+    cat(logline, file=bunyan_globals$log_con, sep="\n", append=TRUE)
 
   #####
   # JSON output

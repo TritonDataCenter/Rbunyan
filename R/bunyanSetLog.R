@@ -67,7 +67,7 @@ function(level, logpath, logfile, memlines=20, jsonout=FALSE )  {
  
 #  cat("[",logname,"]","\n")
 
-  if (length(logname) != 0) {
+  if (nchar(logname) != 0) {
     if (file.exists(logname) == TRUE) {
     # Appending
       log_con <- file(logname,"at")
@@ -95,16 +95,17 @@ function(level, logpath, logfile, memlines=20, jsonout=FALSE )  {
   # Process ID
   pid <- Sys.getpid()
   assign("pid", pid, envir=bunyan_globals)
+  assign("memlines", memlines, envir=bunyan_globals)  # size of array
   if (memlines > 0) {
     loglines <- character(memlines)
     assign("loglines", loglines, envir=bunyan_globals) # the log array 
-    assign("memlines", memlines, envir=bunyan_globals)  # size of array
     assign("memstart", 0, envir=bunyan_globals) # start of wrapped array 
     assign("linecount", 0, envir=bunyan_globals) # total number of lines logged
     assign("setpoint", 0, envir=bunyan_globals) # setpoint to report new items from
     assign("countsincemark", 0, envir=bunyan_globals) # of lines since setpoint logged
-    assign("bunyan_initialized", TRUE, envir=bunyan_globals) # ready
   }
+
+  assign("bunyan_initialized", TRUE, envir=bunyan_globals) # ready
 
   # Log initialization message
   msg = paste("Initialized bunyan log at level: ", level, "=", level_num, sep="")

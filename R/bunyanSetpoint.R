@@ -11,6 +11,8 @@ function() {
     bunyanSetLog() # default is memory logging at INFO level
   }
 
+  if (bunyan_globals$memlines == 0) return()
+
   # set to the next slot in memory
   bunyan_globals$setpoint <- bunyan_globals$memstart + 1
   #wrap condition
