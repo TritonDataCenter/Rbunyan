@@ -8,14 +8,11 @@ see https://github.com/trentm/node-bunyan
 and http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/
 GitHub home - www.github.com/cwvhogue/bunyan
 
-
-UNDER CONSTRUCTION
-
+Initial Release
 
 ### Windows Installation
 install_github() requires Rtools in addition to the R package 
 http://cran.r-project.org/bin/windows/Rtools
-
 
 
 ### From R ###
