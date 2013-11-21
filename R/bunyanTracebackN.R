@@ -7,10 +7,20 @@
 #' calls are ignored. Use bunyanClearSetpoint to clear before
 #' setting a new setpoint.
 #'
+#' @param level, threshold level to see in traceback count
+#'
 #' @keywords bunyan, setpoint
 #'
 #' @export
 bunyanTracebackN <-
-function() {
-  return(bunyan_globals$countsincemark)
+function(level) {
+  if (bunyan_globals$countsincemark == 0) {
+   return(0)
+  }
+  if (missing(level)) {
+    return(bunyan_globals$countsincemark) 
+  } else { # need to screen for level threshold
+    report <- bunyanTraceback(level = level)
+    return(length(report))
+  }
 }

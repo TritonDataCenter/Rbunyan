@@ -2,7 +2,10 @@
 \alias{bunyanTracebackN}
 \title{Count of new messages above level threshold after setpoint}
 \usage{
-  bunyanTracebackN()
+  bunyanTracebackN(level)
+}
+\arguments{
+  \item{level,}{threshold level to see in traceback count}
 }
 \description{
   Returns the number of threshold passing log messages

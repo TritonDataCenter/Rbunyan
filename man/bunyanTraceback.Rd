@@ -2,7 +2,11 @@
 \alias{bunyanTraceback}
 \title{Get messages from memory after setpoint}
 \usage{
-  bunyanTraceback()
+  bunyanTraceback(level)
+}
+\arguments{
+  \item{level}{optional relevant error threshold level to
+  view}
 }
 \description{
   Reports the last JSON lines in the bunyan memory buffer

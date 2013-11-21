@@ -69,7 +69,7 @@ function(level, logpath, logfile, memlines, jsonout=FALSE, verbose = FALSE )  {
       # if there is already a log being used...
       logname <- bunyan_globals$logname
       log_con <- bunyan_globals$log_con
-      if (!is.na(log_con)) {
+      if (!is.null(log_con)) {
       # flush and close it, open again in append mode below
         flush(bunyan_globals$log_con)
         close(bunyan_globals$log_con)
