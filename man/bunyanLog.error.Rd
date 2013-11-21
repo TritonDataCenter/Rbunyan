@@ -1,8 +1,6 @@
 \name{bunyanLog.error}
 \alias{bunyanLog.error}
-\title{Logger bunyan style, to write JSON formatted machine readable logs
-and to keep JSON log lines in a memory buffer.  Can be used with
-other logging packages.}
+\title{Logs a message at ERROR level 50}
 \usage{
   bunyanLog.error(msg, req, res, version)
 }

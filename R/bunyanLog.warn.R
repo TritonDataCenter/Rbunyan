@@ -1,4 +1,6 @@
 # Roxygen Comments bunyanLog.warn
+#' Logs a message at WARN level 40
+#'
 #' Logger bunyan style, to write JSON formatted machine readable logs
 #' and to keep JSON log lines in a memory buffer.  Can be used with
 #' other logging packages.

@@ -1,4 +1,6 @@
 # Roxygen Comments bunyanLog.info
+#' Logs a message at INFO level 30
+#'
 #' Logger bunyan style, to write JSON formatted machine readable logs
 #' and to keep JSON log lines in a memory buffer.  Can be used with
 #' other logging packages.

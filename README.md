@@ -31,9 +31,33 @@ install_github("bunyan", username="cwvhogue")
 Test:
 ```
 library(bunyan)
-help(bunyan)
-bunyanSetLog(level='INFO',file="mylog.log")
-bunyanLog(level='INFO',msg="Log test")
+
+#help(bunyan)
+bunyanSetLog(level = 'INFO', memlines = 20, logfile = "mylog.log")
+bunyanLog.info("Log test")
+bunyanLog.error("This is an error")
+bunyanSetpoint()
+bunyanLog.trace("This will not appear in the log")
+bunyanLog.fatal("I told you never to do that!")
+bunyanLog.error("Another error")
+bunyanLog.warn("Always wear clean underwear")
+cat(bunyanTracebackN()," messages since bunyanSetpoint()")
+bunyanTraceback()
+bunyanBuffer()
+bunyanSetLog(level = 'TRACE')
+bunyanLog.trace("This will now appear in the log")
+bunyanStopLog()
+#
+bunyanLog.error("Without bunyanSetLog, default is memory error logging at INFO level, 100 lines of log")
+bunyanBuffer()
+bunyanStopLog()
+#
+#
+# This sets up the bunyan package for JSON string return 
+# only so you can use them with alternative logging packages:
+bunyanSetLog(level="0", memlines=0, jsonout=TRUE)
+msg <- bunyanLog.error("This is erroneous")
+cat(msg)
 ```
 
 Remove:

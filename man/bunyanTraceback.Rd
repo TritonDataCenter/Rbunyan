@@ -1,13 +1,15 @@
 \name{bunyanTraceback}
 \alias{bunyanTraceback}
-\title{Reports the last bunyan messages since
- bunyanSetpoint}
+\title{Get messages from memory after setpoint}
 \usage{
   bunyanTraceback()
 }
 \description{
-  Reports the last bunyan messages since bunyanSetpoint
+  Reports the last JSON lines in the bunyan memory buffer
+  log encountered since the last call to bunyanSetpoint
+  above the threshold set by bunyanSetLog
 }
 \keyword{bunyan,}
-\keyword{setpoint}
+\keyword{setpoint,}
+\keyword{traceback}
 

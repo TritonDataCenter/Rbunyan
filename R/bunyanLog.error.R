@@ -1,4 +1,6 @@
 # Roxygen Comments bunyanLog.error
+#' Logs a message at ERROR level 50
+#'
 #' Logger bunyan style, to write JSON formatted machine readable logs
 #' and to keep JSON log lines in a memory buffer.  Can be used with
 #' other logging packages.

@@ -1,4 +1,6 @@
 # Roxygen Comments bunyanLog.fatal
+#' Logs a message at FATAL level 60
+#'
 #' Logger bunyan style, to write JSON formatted machine readable logs
 #' and to keep JSON log lines in a memory buffer.  Can be used with
 #' other logging packages.

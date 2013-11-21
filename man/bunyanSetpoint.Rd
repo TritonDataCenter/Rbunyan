@@ -1,13 +1,16 @@
 \name{bunyanSetpoint}
 \alias{bunyanSetpoint}
-\title{Removes Manta object specified by full manta path or from current
-working manta directory}
+\title{Sets marker in memory logging buffer for catching new messages}
 \usage{
   bunyanSetpoint()
 }
 \description{
-  Removes Manta object specified by full manta path or from
-  current working manta directory
+  Sets a marker in the Bunyan log marking the start of log
+  buffer space after which logged errors and warnings may
+  be retrieved or counted with bunyanTraceback and
+  bunyanTracebackN. If a setpoint already exists, calls are
+  ignored, they must be explicitally cleared with
+  bunyanClearSetpoint.
 }
 \keyword{bunyan,}
 \keyword{setpoint}

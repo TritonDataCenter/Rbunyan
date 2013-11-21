@@ -1,8 +1,6 @@
 \name{bunyanLog}
 \alias{bunyanLog}
-\title{Logger bunyan style, to write JSON formatted machine readable logs
-and to keep JSON log lines in a memory buffer.  Can be used with
-other logging packages.}
+\title{Logs a message}
 \usage{
   bunyanLog(msg, level, req, res, version)
 }
@@ -22,8 +20,10 @@ other logging packages.}
   struct}
 }
 \description{
-  Logger bunyan style, to write JSON formatted machine
-  readable logs and to keep JSON log lines in a memory
-  buffer.  Can be used with other logging packages.
+  Log errors, warnings, debug and trace messages bunyan
+  style, with JSON formatted machine readable logs, and a
+  memory buffer for traceback. Supports one log file and
+  memory log. For more than one log file, the JSON emitted
+  Can be used with other logging packages.
 }
 

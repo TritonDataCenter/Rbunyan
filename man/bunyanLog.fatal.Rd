@@ -1,8 +1,6 @@
 \name{bunyanLog.fatal}
 \alias{bunyanLog.fatal}
-\title{Logger bunyan style, to write JSON formatted machine readable logs
-and to keep JSON log lines in a memory buffer.  Can be used with
-other logging packages.}
+\title{Logs a message at FATAL level 60}
 \usage{
   bunyanLog.fatal(msg, req, res, version)
 }

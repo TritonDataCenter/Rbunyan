@@ -1,10 +1,12 @@
 # Roxygen Comments bunyanTraceback
+#'  Get messages from memory after setpoint
 #'
-#'  Reports the last bunyan messages since 
-#'  bunyanSetpoint
+#'  Reports the last JSON lines in the bunyan memory buffer log 
+#'  encountered since the last call to  
+#'  bunyanSetpoint above the threshold set by bunyanSetLog
 #'
 #'
-#' @keywords bunyan, setpoint
+#' @keywords bunyan, setpoint, traceback
 #'
 #'
 #'

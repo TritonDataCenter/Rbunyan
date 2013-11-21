@@ -1,4 +1,6 @@
 # Roxygen Comments bunyanLog.trace
+#' Logs a message at TRACE level 10
+#'
 #' Logger bunyan style, to write JSON formatted machine readable logs
 #' and to keep JSON log lines in a memory buffer.  Can be used with
 #' other logging packages.

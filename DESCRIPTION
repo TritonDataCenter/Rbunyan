@@ -1,7 +1,7 @@
 Package: bunyan
 Type: Package
 Title: Joyent Bunyan style JSON logging for R
-Version: 0.1.0
+Version: 1.0.0
 Date: 2013-11-13
 Authors@R: c(person("Christopher","Hogue",role = c("aut","cre"),
     email="christopher.hogue@joyent.com"))
@@ -36,3 +36,4 @@ Collate:
     'bunyanLog.warn.R'
     'bunyanBuffer.R'
     'bunyanClearSetpoint.R'
+    'bunyanStopLog.R'
