@@ -37,3 +37,5 @@ Collate:
     'bunyanBuffer.R'
     'bunyanClearSetpoint.R'
     'bunyanStopLog.R'
+    'bunyanTracebackErrors.R'
+    'bunyanTracebackWarnings.R'

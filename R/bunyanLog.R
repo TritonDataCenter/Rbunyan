@@ -110,6 +110,12 @@ function(msg, level, req, res, version) {
       # increment number of msgs since marker setpoint  
       if (bunyan_globals$setpoint != 0) {
         assign("countsincemark", bunyan_globals$countsincemark + 1, envir=bunyan_globals)
+        if (level_num >= 50) {
+          assign("errorssincemark", bunyan_globals$errorssincemark + 1, envir=bunyan_globals)
+        }
+        if (level_num == 40) {
+          assign("warnsincemark", bunyan_globals$warnsincemark + 1, envir=bunyan_globals)
+        }
       }
     }
 

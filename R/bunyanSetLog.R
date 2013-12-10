@@ -144,6 +144,8 @@ function(level, logpath, logfile, memlines, jsonout=FALSE, verbose = FALSE )  {
       assign("linecount", 0, envir=bunyan_globals) # total number of lines logged
       assign("setpoint", 0, envir=bunyan_globals) # setpoint to report new items from
       assign("countsincemark", 0, envir=bunyan_globals) # of lines since setpoint logged
+      assign("errorssincemark", 0, envir=bunyan_globals) # of errors since setpoint 
+      assign("warnsincemark", 0, envir=bunyan_globals) # of warnings since setpoint
     }
   }
 

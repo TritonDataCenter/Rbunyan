@@ -26,7 +26,9 @@ function() {
     bunyan_globals$setpoint <- bunyan_globals$memstart + 1
     #wrap condition
     if (bunyan_globals$setpoint > bunyan_globals$memlines) bunyan_globals$setpoint <- 1
-    #reset the counter
-    bunyan_globals$countsincemark <- 0  
+    #reset the counters
+    bunyan_globals$countsincemark <- 0
+    bunyan_globals$errorssincemark <- 0  
+    bunyan_globals$warnsincemark <- 0
   }
 }
