@@ -21,7 +21,6 @@ License: MIT
 URL: www.joyent.com
 BugReports: github.com/joyent/Rbunyan/issues
 Collate:
-    'bunyan-package.r'
     'bunyanLog.R'
     'bunyanOnload.R'
     'bunyanSetLog.R'
@@ -39,3 +38,4 @@ Collate:
     'bunyanStopLog.R'
     'bunyanTracebackErrors.R'
     'bunyanTracebackWarnings.R'
+    'Rbunyan-package.r'

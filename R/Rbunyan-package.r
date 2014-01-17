@@ -1,6 +1,6 @@
-#' bunyan
+#' Rbunyan
 #'
-#' Joyent bunyan JSON error logging package
+#' Joyent Rbunyan JSON error logging package
 #'  
 #'  R functions to log errors in structured JSON format
 #'  to a log file. Also provides a memory buffer for tracing
@@ -45,6 +45,6 @@
 #' 
 #' @references http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/
 #' @import RJSONIO 
-#' @name bunyan
+#' @name Rbunyan
 #' @docType package
 NULL
