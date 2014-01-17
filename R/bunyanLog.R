@@ -121,8 +121,11 @@ function(msg, level, req, res, version) {
 
     ######
     #FILE logging
-    if (bunyan_globals$logname != "")
+    if (bunyan_globals$logname != "") {
       cat(logline, file=bunyan_globals$log_con, sep="\n", append=TRUE)
+      # Windows likes to be flushed 
+      flush(bunyan_globals$log_con)
+    }
 
     #####
     # JSON output

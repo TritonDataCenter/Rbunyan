@@ -1,12 +1,12 @@
-bunyan
+Rbunyan
 =========
 
-Joyent bunyan style JSON error logging for R
+Joyent Rbunyan, Bunyan style JSON error logging for R
 See the mantaRSDK for use with RCURL. 
 For more about Bunyan and Node.js
 see https://github.com/trentm/node-bunyan
 and http://blog.nodejs.org/2012/03/28/service-logging-in-json-with-bunyan/
-GitHub home - www.github.com/cwvhogue/bunyan
+GitHub home - github.com/joyent/Rbunyan
 
 Initial Release
 
@@ -22,14 +22,14 @@ Install:
 ```
 install.packages("devtools")
 library(devtools)
-install_github("bunyan", username="cwvhogue")
+install_github("Rbunyan", username="joyent")
 ```
 
 Test:
 ```
-library(bunyan)
+library(Rbunyan)
 
-#help(bunyan)
+#help(Rbunyan)
 bunyanSetLog(level = 'INFO', memlines = 20, logfile = "mylog.log")
 bunyanLog.info("Log test")
 bunyanLog.error("This is an error")
