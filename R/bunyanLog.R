@@ -1,8 +1,8 @@
 # Roxygen Comments bunyanLog
 #' Logs a message
-#' 
-#' Log errors, warnings, debug and trace messages  bunyan style, with JSON 
-#' formatted machine readable logs, and a memory buffer for traceback.  
+#'
+#' Log errors, warnings, debug and trace messages  bunyan style, with JSON
+#' formatted machine readable logs, and a memory buffer for traceback.
 #' Supports one log file and memory log. For more than one log file, the JSON
 #' emitted Can be used with other logging packages.
 #'
@@ -12,15 +12,15 @@
 #' @param level string or numeric, required. 'TRACE', 'DEBUG', 'INFO',
 #' 'WARN', 'ERROR', 'FATAL' Level required to trigger log write.
 #'
-#' @param req optional. An http style request R struct 
+#' @param req optional. An http style request R struct
 #'
-#' @param res optional. An http style response R struct 
+#' @param res optional. An http style response R struct
 #'
 #' @param version optional. A user specified version R struct
 #'
 #'
 #' @export
-bunyanLog <- 
+bunyanLog <-
 function(msg, level, req, res, version) {
 
   if (bunyan_globals$bunyan_initialized == FALSE) {
@@ -43,7 +43,7 @@ function(msg, level, req, res, version) {
   if (level_num >= bunyan_globals$level_num) {
 
     ### Bunyan timestamp
-    time <- format(Sys.time(), "%Y-%m-%dT%H:%M:%OS3Z")  
+    time <- format(Sys.time(), "%Y-%m-%dT%H:%M:%OS3Z")
 
     ### R Namespace
     callfrom <-  capture.output(str(topenv(environment(sys.function(-1))), give.attr=FALSE))
@@ -55,7 +55,8 @@ function(msg, level, req, res, version) {
 
     ### Assemble message for JSON output
 
-    tolog <- c(name = bunyan_globals$name,  #R version
+    tolog <- list(
+			   name = bunyan_globals$name,  #R version
                hostname = bunyan_globals$hostname, #Computer name
                pid = bunyan_globals$pid, # Process ID
                Rpackage = namespace, # Rpackage called from
@@ -65,39 +66,46 @@ function(msg, level, req, res, version) {
     if  (missing(req)) {
       if (missing(res))  {
          if (missing(msg)) {
-           tolog <- c(tolog, time = time)
+           tolog$time <- time
          } else {
-           tolog <- c(tolog, msg = msg, time = time)
+           tolog$msg <- msg
+           tolog$time <- time
         }
       } else { # got res
         if (missing(msg)) {
-          tolog <- c(tolog, res = res, time = time)
+          tolog$res <- res
+          tolog$time <- time
         } else { # got res, msg
-          tolog <- c(tolog, res = res, msg = msg, time = time)
+          tolog$res <- res
+          tolog$msg <- msg
+          tolog$time <- time
         }
       }
-    } else { # got req 
+    } else { # got req
       if (missing(msg)) {
-        tolog <- c(tolog, req = req, time = time)
+        tolog$req <- req
+        tolog$time <- time
       } else {
-        tolog <- c(tolog, req = req, msg = msg, time = time)
-      } 
+        tolog$req <- req
+        tolog$msg <- msg
+        tolog$time <- time
+      }
     }
 
     if (!missing(version)) {
-      tolog <- c(tolog, v = version)
+      tolog$v <- version
     }
 
-    loglinef <- toJSON(tolog) 
+    loglinef <- toJSON(tolog)
     ## to make a one-liner JSON from log R object:
     ## this strips \n from JSON returned part of msg..
-    logline <- gsub("\n","",loglinef)     
+    logline <- gsub("\n","",loglinef)
 
     #####
     # MEMORY logging into fixed array of JSON log strings, wraparound
     if (bunyan_globals$memlines > 0) {
       # Update memstart to place logline into next memory location
-      if (bunyan_globals$memstart == bunyan_globals$memlines) { 
+      if (bunyan_globals$memstart == bunyan_globals$memlines) {
         # wraparound condition
         assign("memstart", 1, envir=bunyan_globals)
       } else {
@@ -107,7 +115,7 @@ function(msg, level, req, res, version) {
       bunyan_globals$loglines[bunyan_globals$memstart] <- logline
       # increment number of msgs logged in memory
       assign("linecount", bunyan_globals$linecount + 1, envir=bunyan_globals)
-      # increment number of msgs since marker setpoint  
+      # increment number of msgs since marker setpoint
       if (bunyan_globals$setpoint != 0) {
         assign("countsincemark", bunyan_globals$countsincemark + 1, envir=bunyan_globals)
         if (level_num >= 50) {
@@ -123,7 +131,7 @@ function(msg, level, req, res, version) {
     #FILE logging
     if (bunyan_globals$logname != "") {
       cat(logline, file=bunyan_globals$log_con, sep="\n", append=TRUE)
-      # Windows likes to be flushed 
+      # Windows likes to be flushed
       flush(bunyan_globals$log_con)
     }
 
